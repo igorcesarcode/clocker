@@ -28,7 +28,14 @@ const validationSchema = yup.object().shape({
 
 
 export default function Home() {
-    const formik = useFormik({
+    const {
+      values,
+      errors,
+      touched,
+      handleChange,
+      handleBlur,
+      handleSubmit
+    } = useFormik({
       onSubmit: () => {},
       validationSchema,
       initialValues: {
