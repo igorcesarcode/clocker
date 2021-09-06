@@ -1,32 +1,32 @@
 import { Container } from "@chakra-ui/layout"
 import { Spinner } from "@chakra-ui/spinner"
-import { useState , useEffect } from "react"
-import { Login , Agenda} from "../componests"
-import firebase from "../config/firebase"
+import { useState, useEffect } from "react"
+import { Login, Agenda } from "../componests"
+import { firebaseClient } from "../config/firebase/client"
 
 export default function Home() {
 
   const [auth, setAuth] = useState({
-    loading:true,
+    loading: true,
     user: false
   })
-  
-  useEffect(()=>{
-    firebase.auth().onAuthStateChanged(user =>{
+
+  useEffect(() => {
+    firebaseClient.auth().onAuthStateChanged(user => {
       setAuth({
-        loading:false,
+        loading: false,
         user
       })
-    } )
-  },[])
-  
-  if(auth.loading){
+    })
+  }, [])
+
+  if (auth.loading) {
     return (
       <Container p={4} centerContent>
-        <Spinner/>
+        <Spinner />
       </Container>
     )
   }
   console.log(auth)
-  return auth.user ? <Agenda/> : <Login/>
-} 
+  return auth.user ? <Agenda /> : <Login />
+}

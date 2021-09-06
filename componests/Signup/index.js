@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Link from 'next/link'
 import { Logo } from "../Logo";
-import firebase from "../../config/firebase";
+import { firebaseClient } from "../../config/firebase/client";
 
 import {
   Container,
@@ -31,7 +31,7 @@ export const Signup = () => {
     useFormik({
       onSubmit: async (values, form) => {
         try {
-          const user = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
+          const user = await firebaseClient.auth().createUserWithEmailAndPassword(values.email, values.password)
           console.log(user)
         } catch (error) {
 
@@ -95,7 +95,7 @@ export const Signup = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            
+
           </InputGroup>
           {touched.username && (
             <FormHelperText textColor="#e74c3c">

@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { Logo } from "../Logo";
-import firebase, { persistenceMode } from "../../config/firebase";
+import { firebaseClient, persistenceMode } from "../../config/firebase/client";
 
 import {
   Container,
@@ -35,9 +35,9 @@ export const Login = () => {
     isSubmitting,
   } = useFormik({
     onSubmit: async (values, form) => {
-      firebase.auth().setPersistence(persistenceMode);
+      firebaseClient.auth().setPersistence(persistenceMode);
       try {
-        const user = await firebase
+        const user = await firebaseClient
           .auth()
           .signInWithEmailAndPassword(values.email, values.password);
         console.log(user);
@@ -86,7 +86,7 @@ export const Login = () => {
           />
           {touched.password && (
             <FormHelperText textColor="#e74c3c">
-              
+
               {errors.password}
             </FormHelperText>
           )}
