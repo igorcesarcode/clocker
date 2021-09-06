@@ -13,7 +13,8 @@ import {
 } from "@chakra-ui/react";
 
 import { Logo } from "../componests";
-import firebase from "../config/firebase";
+import firebase, { persistenceMode } from "../config/firebase";
+import { useEffect } from "react";
 
 
 
@@ -29,15 +30,16 @@ const validationSchema = yup.object().shape({
 export default function Home() {
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting } =
     useFormik({
-      onSubmit: async(values , form) => {
-        try{
+      onSubmit: async (values, form) => {
+        firebase.auth().setPersistence(persistenceMode)
+        try {
           const user = await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
           console.log(user)
-        }catch(error){
+        } catch (error) {
 
           console.log(error)
         }
-        
+
       },
       validationSchema,
       initialValues: {
@@ -46,6 +48,7 @@ export default function Home() {
         password: "",
       },
     });
+
   return (
     <Container p={4} centerContent>
       <Logo />
@@ -87,12 +90,12 @@ export default function Home() {
         </FormControl>
 
         <Box p={4}>
-          <Button width="100%" 
-          onClick={handleSubmit} colorScheme="blue" isLoading={isSubmitting} > Entra</Button>
+          <Button width="100%"
+            onClick={handleSubmit} colorScheme="blue" isLoading={isSubmitting} > Entra</Button>
         </Box>
       </Box>
 
-            <Link href='/signup'>Ainda não tem uma conta? Cadastrasse</Link>
+      <Link href='/signup'>Ainda não tem uma conta? Cadastrasse</Link>
 
     </Container>
   );

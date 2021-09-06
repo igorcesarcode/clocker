@@ -9,6 +9,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID
 }
-export default firebase.apps.length
-  ? firebase.app()
-  : firebase.initializeApp(firebaseConfig);
+
+const app = firebase.apps.length
+? firebase.app()
+: firebase.initializeApp(firebaseConfig);
+
+export const persistenceMode = firebase.auth.Auth.Persistence.LOCAL
+
+export default app
