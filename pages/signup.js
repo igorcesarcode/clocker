@@ -30,18 +30,18 @@ const validationSchema = yup.object().shape({
   username: yup.string().required("Preenchimento obrigatório"),
 });
 
-export default function Home() {
+export default function Signup() {
   const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting } =
     useFormik({
-      onSubmit: async(values , form) => {
-        try{
+      onSubmit: async (values, form) => {
+        try {
           const user = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
           console.log(user)
-        }catch(error){
+        } catch (error) {
 
           console.log(error)
         }
-        
+
       },
       validationSchema,
       initialValues: {
@@ -68,8 +68,8 @@ export default function Home() {
           />
           {touched.email && (
             <FormHelperText textColor="#e74c3c">
-              {" "}
-              {errors.email}{" "}
+
+              {errors.email}
             </FormHelperText>
           )}
         </FormControl>
@@ -84,8 +84,8 @@ export default function Home() {
           />
           {touched.password && (
             <FormHelperText textColor="#e74c3c">
-              {" "}
-              {errors.password}{" "}
+
+              {errors.password}
             </FormHelperText>
           )}
         </FormControl>
@@ -108,8 +108,8 @@ export default function Home() {
         </FormControl>
 
         <Box p={4}>
-          <Button width="100%" 
-          onClick={handleSubmit} colorScheme="blue" isLoading={isSubmitting} > Cadastra</Button>
+          <Button width="100%"
+            onClick={handleSubmit} colorScheme="blue" isLoading={isSubmitting} > Cadastra</Button>
         </Box>
       </Box>
       <Link href='/'>Já tem uma conta Acesse</Link>
