@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import Link from "next/link";
+import Link from 'next/link'
 import { Logo } from "../Logo";
-import firebase, { persistenceMode } from "../../config/firebase";
+import firebase from "../../config/firebase";
 
 import {
   Container,
@@ -13,8 +13,9 @@ import {
   FormControl,
   FormLabel,
   FormHelperText,
+  InputLeftAddon,
+  InputGroup,
 } from "@chakra-ui/react";
-
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -22,37 +23,29 @@ const validationSchema = yup.object().shape({
     .email("E-mail invalido")
     .required("Preenchimento obrigatório"),
   password: yup.string().required("Preenchimento obrigatório"),
+  username: yup.string().required("Preenchimento obrigatório"),
 });
 
-export const Login = () => {
-  const {
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    isSubmitting,
-  } = useFormik({
-    onSubmit: async (values, form) => {
-      firebase.auth().setPersistence(persistenceMode);
-      try {
-        const user = await firebase
-          .auth()
-          .signInWithEmailAndPassword(values.email, values.password);
-        console.log(user);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    validationSchema,
-    initialValues: {
-      email: "",
-      username: "",
-      password: "",
-    },
-  });
+export const Signup = () => {
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting } =
+    useFormik({
+      onSubmit: async (values, form) => {
+        try {
+          const user = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
+          console.log(user)
+        } catch (error) {
 
+          console.log(error)
+        }
+
+      },
+      validationSchema,
+      initialValues: {
+        email: "",
+        username: "",
+        password: "",
+      },
+    });
   return (
     <Container p={4} centerContent>
       <Logo />
@@ -71,6 +64,7 @@ export const Login = () => {
           />
           {touched.email && (
             <FormHelperText textColor="#e74c3c">
+
               {errors.email}
             </FormHelperText>
           )}
@@ -86,25 +80,37 @@ export const Login = () => {
           />
           {touched.password && (
             <FormHelperText textColor="#e74c3c">
-              
+
               {errors.password}
             </FormHelperText>
           )}
         </FormControl>
 
+        <FormControl id="username" p={4} isRequired>
+          <InputGroup>
+            <InputLeftAddon children="clocker.io/" />
+            <Input
+              type="username"
+              value={values.username}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            
+          </InputGroup>
+          {touched.username && (
+            <FormHelperText textColor="#e74c3c">
+              {errors.username}
+            </FormHelperText>
+          )}
+        </FormControl>
+
         <Box p={4}>
-          <Button
-            width="100%"
-            onClick={handleSubmit}
-            colorScheme="blue"
-            isLoading={isSubmitting}
-          >
-            Entra
-          </Button>
+          <Button width="100%"
+            onClick={handleSubmit} colorScheme="blue" isLoading={isSubmitting} > Cadastra</Button>
         </Box>
       </Box>
+      <Link href='/'>Já tem uma conta Acesse</Link>
 
-      <Link href="/signup">Ainda não tem uma conta? Cadastrasse</Link>
     </Container>
   );
-};
+}

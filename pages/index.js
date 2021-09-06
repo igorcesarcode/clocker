@@ -1,6 +1,6 @@
 import { Container } from "@chakra-ui/layout"
 import { Spinner } from "@chakra-ui/spinner"
-import { useState , setState, useEffect } from "react"
+import { useState , useEffect } from "react"
 import { Login , Agenda} from "../componests"
 import firebase from "../config/firebase"
 
