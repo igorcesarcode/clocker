@@ -4,7 +4,7 @@ import { useState , setState, useEffect } from "react"
 import { Login , Agenda} from "../componests"
 import firebase from "../config/firebase"
 
-export default function home() {
+export default function Home() {
 
   const [auth, setAuth] = useState({
     loading:true,
