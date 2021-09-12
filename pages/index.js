@@ -1,24 +1,10 @@
 import { Container } from "@chakra-ui/layout"
 import { Spinner } from "@chakra-ui/spinner"
-import { useState, useEffect } from "react"
-import { Login, Agenda } from "../componests"
-import { firebaseClient } from "../config/firebase/client"
+import { Login, Agenda, useAuth } from "../componests"
+
 
 export default function Home() {
-
-  const [auth, setAuth] = useState({
-    loading: true,
-    user: false
-  })
-
-  useEffect(() => {
-    firebaseClient.auth().onAuthStateChanged(user => {
-      setAuth({
-        loading: false,
-        user
-      })
-    })
-  }, [])
+  const [auth] = useAuth()
 
   if (auth.loading) {
     return (

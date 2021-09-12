@@ -3,7 +3,7 @@ import * as yup from "yup";
 import Link from 'next/link'
 import { Logo } from "../Logo";
 import { firebaseClient } from "../../config/firebase/client";
-
+import axios from 'axios'
 import {
   Container,
   Box,
@@ -31,7 +31,18 @@ export const Signup = () => {
     useFormik({
       onSubmit: async (values, form) => {
         try {
+
           const user = await firebaseClient.auth().createUserWithEmailAndPassword(values.email, values.password)
+          const { data } = await axios({
+            method: 'POST',
+            url: '/api/profile',
+            data: {
+              username: values.username
+            },
+            headers:{
+              'Authentication': `Bearer ${user.getToken()}`
+            }
+          })
           console.log(user)
         } catch (error) {
 

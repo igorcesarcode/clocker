@@ -62,7 +62,7 @@ export const Login = () => {
 
       <Box>
         <FormControl id="email" p={4} isRequired>
-          <FormLabel>Email address</FormLabel>
+          <FormLabel>Endereço de Email</FormLabel>
           <Input
             type="email"
             value={values.email}
